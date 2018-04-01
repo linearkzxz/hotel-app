@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
 import { Navbar, Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem } from 'react-bootstrap'
-import { ManageHotel, ReserveHotel } from "./components"
+import { LinkContainer } from 'react-router-bootstrap'
+import { ManageHotel, ReserveHotel, AddHotel } from "./components"
 import logo from './logo.svg'
 import './App.css'
 
@@ -20,11 +21,11 @@ class App extends Component {
               </Navbar.Header>
               <Navbar.Collapse>
                 <Nav>
-                  <NavItem eventKey={1}>
-                    <Link to="/manage-hotel">Manage Hotel</Link>
+                  <NavItem eventKey={1} href="/manage-hotel">
+                    Manage Hotel
                   </NavItem>
-                  <NavItem eventKey={2}>
-                    <Link to="/reserver-hotel">Manage Hotel</Link>
+                  <NavItem eventKey={2} href="/reserver-hotel">
+                    Manage Hotel
                   </NavItem>
                   <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                     <MenuItem eventKey={3.1}>Action</MenuItem>
@@ -46,11 +47,12 @@ class App extends Component {
               </p>
 
             </div> */}
-              <Route exact path="/" component={ManageHotel} />
-              <Route path="/manage-hotel" component={ManageHotel} />
-              <Route path="/reserver-hotel" component={ReserveHotel} />
-            </div>
-          </Router>
+            <Route exact path="/" component={ManageHotel} />
+            <Route path="/manage-hotel" component={ManageHotel} />
+            <Route path="/reserver-hotel" component={ReserveHotel} />
+            <Route path="/add-hotel" component={AddHotel} />
+          </div>
+        </Router>
       </div>
     );
   }

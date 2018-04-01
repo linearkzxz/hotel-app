@@ -20,7 +20,19 @@ const initState = {
 const hotelReducer = (state = initState, action) => {
   switch (action.type) {
     case ADD_HOTEL_TO_STORE: {
-      return state
+      return {
+        ...state,
+        hotels: {
+          ...state.hotels,
+          [action.name]: {
+            name: action.name,
+            room: {
+              desc: action.roomType,
+              numRoom: parseInt(action.numRoom),
+            }
+          }
+        }
+      }
     }
     default:
       return state

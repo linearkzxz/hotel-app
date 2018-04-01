@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
-import logo from '../logo.svg'
-import '../App.css'
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
+import AddHotel from './AddHotel'
+import { FieldGroup } from '../commons'
 import { addHotelToStore } from '../actions/hotelAction'
 
 class ManageHotel extends Component {
@@ -13,12 +14,42 @@ class ManageHotel extends Component {
   }
 
   render() {
+
     return (
-      <div className="App">
-        <p className="App-intro">
+      <div>
+        <div>
+          <div>
+            <p className="App-intro">
+              Manage Hotel
+              </p>
+            <Button bsStyle="primary" onClick={() => { this.props.history.push('/add-hotel') }}>Foo</Button>
+          </div>
+        </div>
+        {/* </div> */}
+        {/* <div className="App"> */}
+        {/* <p className="App-intro">
           Manage Hotel
         </p>
-        <Button bsStyle="primary" onClick={this.addHotel}>Primary</Button>
+        <FieldGroup
+          id="hotelNameInput"
+          type="text"
+          label="Hotel name"
+          placeholder="Enter text"
+        />
+        <FieldGroup
+          id="roomTypeInput"
+          type="text"
+          label="Room type"
+          placeholder="Enter text"
+        />
+        <FieldGroup
+          id="roomTypeInput"
+          type="select"
+          label="Room type"
+          placeholder="select"
+        />
+        <Button bsStyle="primary" onClick={this.addHotel}>Primary</Button> */}
+
       </div>
     )
   }
