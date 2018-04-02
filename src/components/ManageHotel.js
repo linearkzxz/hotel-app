@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'react-bootstrap'
+import { Button, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
 import AddHotel from './AddHotel'
-import { RoomCard } from '../commons'
+import { HotelCard } from '../commons'
 import { addHotelToStore } from '../actions/hotelAction'
 
 class ManageHotel extends Component {
@@ -13,19 +13,33 @@ class ManageHotel extends Component {
     addHotelProp()
   }
 
+  handleEdit = (hotelId) => {
+    this.props.history.push({
+      pathname: '/add-room',
+      state: { hotelId: hotelId }
+    })
+  }
+
   render() {
     const { hotels } = this.props
     console.log('hotels', hotels)
     return (
       <div className='container'>
-        <h1 className="App-intro">Manage Hotel</h1>
+        <h1>Manage Hotel</h1>
         <div style={{ margin: '20px 0 20px 0' }}>
           <Button bsStyle="primary" onClick={() => { this.props.history.push('/add-hotel') }}>Add hotel</Button>
         </div>
         <div style={{ margin: '30px 0 30px 0' }}>
-          {!!hotels && hotels.map((item) => (
-            <p>{item.name}</p>
-          ))}
+          <ListGroup>
+            {!!hotels && hotels.map((item) => (
+              <HotelCard
+                hotelId={item.hotelId}
+                name={item.name}
+                handleEdit={() => this.handleEdit(item.hotelId)}
+              />
+            ))}
+          </ListGroup>
+
         </div>
       </div>
     )

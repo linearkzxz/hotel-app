@@ -26,8 +26,8 @@ class App extends Component {
               </Navbar.Header>
               <Navbar.Collapse>
                 <Nav>
-                  <NavItem eventKey={1} href="/manage-hotel">
-                    Manage Hotel
+                  <NavItem eventKey={1}>
+                    <Link to="/manage-hotel">Manage Hotel</Link>
                   </NavItem>
                   <NavItem eventKey={2} href="/reserver-hotel">
                     Manage Hotel

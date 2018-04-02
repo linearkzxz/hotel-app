@@ -7,15 +7,19 @@ import {
 
 const initState = {
   hotels: {
-    hotel1: {
-      name: 'A',
-      rooms: [{
-        type: 'asdasdsd',
-        minPerson: 1,
-        maxPerson: 2,
-        numRoom: 5,
-        price: 300,
-      }],
+    ['123456789']: {
+      hotelId: '123456789',
+      name: 'Hotel A',
+      rooms: {
+        ['123456789123456789']: {
+          roomId: '123456789123456789',
+          type: 'Standard room',
+          minPerson: 1,
+          maxPerson: 2,
+          numRoom: 5,
+          price: 300,
+        },
+      },
       facility: [],
     },
   },
@@ -28,31 +32,32 @@ const hotelReducer = (state = initState, action) => {
         ...state,
         hotels: {
           ...state.hotels,
-          [action.name]: {
+          [action.hotelId]: {
+            hotelId: action.hotelId,
             name: action.name,
-            rooms: [],
+            rooms: {},
           }
         }
       }
     }
     case ADD_HOTEL_ROOM: {
-      console.log('ADD_HOTEL_ROOM', state.hotels, action)
       return {
         ...state,
         hotels: {
           ...state.hotels,
           [action.hotelId]: {
-            name: state.hotels[action.hotelId].name,
-            rooms: [
+            ...state.hotels[action.hotelId],
+            rooms: {
               ...state.hotels[action.hotelId].rooms,
-              {
+              [action.roomId]: {
+                roomId: action.roomId,
                 type: action.roomType,
                 minPerson: parseInt(action.minPerson),
                 maxPerson: parseInt(action.maxPerson),
                 numRoom: parseInt(action.numRoom),
                 price: parseInt(action.roomPrice),
               }
-            ]
+            }
           }
         }
       }

@@ -10,8 +10,7 @@ import {
 import PropTypes from 'prop-types'
 import './style.css'
 
-const RoomCard = ({ type, minPerson, maxPerson, numRoom, price }) => {
-
+const RoomCard = ({ type, minPerson, maxPerson, numRoom, price, handleEdit }) => {
   return (
     <div className='room-card-div'>
       <Grid>
@@ -35,7 +34,7 @@ const RoomCard = ({ type, minPerson, maxPerson, numRoom, price }) => {
           <Col xs={4} md={2} style={{ textAlign: 'center' }}>
             <Row className="show-grid">
               <Col xs={12}>
-                <Button>Edit</Button>
+                <Button onClick={() => handleEdit()}>Edit</Button>
               </Col>
             </Row>
           </Col>
@@ -46,19 +45,11 @@ const RoomCard = ({ type, minPerson, maxPerson, numRoom, price }) => {
 }
 
 RoomCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  help: PropTypes.string,
-  placeholder: PropTypes.string,
-  optionArray: PropTypes.array
+
 }
 
 RoomCard.defaltProps = {
-  label: '',
-  help: '',
-  placeholder: '',
-  optionArray: [],
+
 }
 
 export default RoomCard

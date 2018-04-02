@@ -34,28 +34,26 @@ class AddHotel extends Component {
     this.setState({ [key]: e.target.value });
   }
 
-  addHotel = (name) => {
+  addHotel = (hotelId, name) => {
     const { addHotelProp, history } = this.props
-    addHotelProp(name)
+    addHotelProp(hotelId, name)
     history.push({
       pathname: '/add-room',
-      state: { hotelId: name }
+      state: { hotelId: hotelId }
     })
   }
 
   render() {
     const { hotels } = this.props
+    const hotelId = (new Date().getTime()).toString()
     const numRoomArr = Array(20).fill(0).map((v, i) => ({
       value: i + 1,
       text: i + 1,
     }))
-
-    console.log('hotels', hotels)
-
     return (
       <div style={{ padding: '0px 50px 0 50px' }} align='left'>
         <div align='center'>
-          <p>Manage Hotel</p>
+          <h1>Manage Hotel</h1>
         </div>
         <FormGroup controlId={'hotelNameInput'}>
           <ControlLabel>{'Hotel name'}</ControlLabel>
@@ -69,7 +67,7 @@ class AddHotel extends Component {
           <Button
             bsStyle="primary"
             onClick={
-              () => this.addHotel(this.state.hotelName)
+              () => this.addHotel(hotelId, this.state.hotelName)
             }
           >Add Hotel</Button>
         </div>
@@ -94,7 +92,7 @@ const mapStateToProps = (state) => {
 }
 
 export const mapDispatchToProps = dispatch => ({
-  addHotelProp: (name) => dispatch(addHotelToStore(name)),
+  addHotelProp: (hotelId, name) => dispatch(addHotelToStore(hotelId, name)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddHotel)
