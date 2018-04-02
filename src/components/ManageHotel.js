@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
 import AddHotel from './AddHotel'
-import { FieldGroup } from '../commons'
+import { RoomCard } from '../commons'
 import { addHotelToStore } from '../actions/hotelAction'
 
 class ManageHotel extends Component {
@@ -14,42 +14,19 @@ class ManageHotel extends Component {
   }
 
   render() {
-
+    const { hotels } = this.props
+    console.log('hotels', hotels)
     return (
-      <div>
-        <div>
-          <div>
-            <p className="App-intro">
-              Manage Hotel
-              </p>
-            <Button bsStyle="primary" onClick={() => { this.props.history.push('/add-hotel') }}>Foo</Button>
-          </div>
+      <div className='container'>
+        <h1 className="App-intro">Manage Hotel</h1>
+        <div style={{ margin: '20px 0 20px 0' }}>
+          <Button bsStyle="primary" onClick={() => { this.props.history.push('/add-hotel') }}>Add hotel</Button>
         </div>
-        {/* </div> */}
-        {/* <div className="App"> */}
-        {/* <p className="App-intro">
-          Manage Hotel
-        </p>
-        <FieldGroup
-          id="hotelNameInput"
-          type="text"
-          label="Hotel name"
-          placeholder="Enter text"
-        />
-        <FieldGroup
-          id="roomTypeInput"
-          type="text"
-          label="Room type"
-          placeholder="Enter text"
-        />
-        <FieldGroup
-          id="roomTypeInput"
-          type="select"
-          label="Room type"
-          placeholder="select"
-        />
-        <Button bsStyle="primary" onClick={this.addHotel}>Primary</Button> */}
-
+        <div style={{ margin: '30px 0 30px 0' }}>
+          {!!hotels && hotels.map((item) => (
+            <p>{item.name}</p>
+          ))}
+        </div>
       </div>
     )
   }
@@ -57,9 +34,9 @@ class ManageHotel extends Component {
 
 const mapStateToProps = (state) => {
   const { hotels } = state.hotel
-
+  const hotelsArr = Object.values(hotels)
   return {
-    hotels,
+    hotels: hotelsArr,
   }
 }
 

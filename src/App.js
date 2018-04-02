@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
 import { Navbar, Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import { ManageHotel, ReserveHotel, AddHotel } from "./components"
+import {
+  ManageHotel,
+  ReserveHotel,
+  AddHotel,
+  ManageRoom,
+} from "./components"
 import logo from './logo.svg'
 import './App.css'
 
@@ -51,6 +56,7 @@ class App extends Component {
             <Route path="/manage-hotel" component={ManageHotel} />
             <Route path="/reserver-hotel" component={ReserveHotel} />
             <Route path="/add-hotel" component={AddHotel} />
+            <Route path="/add-room" component={ManageRoom} />
           </div>
         </Router>
       </div>

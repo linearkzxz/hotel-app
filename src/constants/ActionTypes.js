@@ -1,1 +1,2 @@
 export const ADD_HOTEL_TO_STORE = 'ADD_HOTEL_TO_STORE'
+export const ADD_HOTEL_ROOM = 'ADD_HOTEL_ROOM'

@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
   Button,
+  Form,
   FormGroup,
   FormControl,
   ControlLabel,
   HelpBlock,
 } from 'react-bootstrap'
-import { FieldGroup } from '../commons'
+import { RoomCard } from '../commons'
 import { addHotelToStore } from '../actions/hotelAction'
 
 class AddHotel extends Component {
@@ -18,8 +19,6 @@ class AddHotel extends Component {
 
     this.state = {
       hotelName: '',
-      roomType: '',
-      numRoom: 0,
     };
   }
 
@@ -35,9 +34,13 @@ class AddHotel extends Component {
     this.setState({ [key]: e.target.value });
   }
 
-  addHotel = (name, roomType, numRoom) => {
-    const { addHotelProp } = this.props
-    addHotelProp(name, roomType, numRoom)
+  addHotel = (name) => {
+    const { addHotelProp, history } = this.props
+    addHotelProp(name)
+    history.push({
+      pathname: '/add-room',
+      state: { hotelId: name }
+    })
   }
 
   render() {
@@ -50,10 +53,10 @@ class AddHotel extends Component {
     console.log('hotels', hotels)
 
     return (
-      <div>
-        <p>
-          Manage Hotel
-        </p>
+      <div style={{ padding: '0px 50px 0 50px' }} align='left'>
+        <div align='center'>
+          <p>Manage Hotel</p>
+        </div>
         <FormGroup controlId={'hotelNameInput'}>
           <ControlLabel>{'Hotel name'}</ControlLabel>
           <FormControl
@@ -62,48 +65,21 @@ class AddHotel extends Component {
             onChange={(e) => this.handleChange(e, 'hotelName')}
           />
         </FormGroup>
-        <FormGroup controlId={'roomTypeInput'}>
-          <ControlLabel>{'Room type'}</ControlLabel>
-          <FormControl
-            value={this.state.roomType}
-            placeholder={'Room type'}
-            onChange={(e) => this.handleChange(e, 'roomType')}
-          />
-        </FormGroup>
-        <FormGroup controlId={'numRoomInput'}>
-          <ControlLabel>{'Room type'}</ControlLabel>
-          <FormControl
-            componentClass={'select'}
-            placeholder={'Room type'}
-            value={this.state.numRoom}
-            onChange={(e) => this.handleChange(e, 'numRoom')}
-          >
-            {
-              !!numRoomArr && (
-                numRoomArr.map((item, index) => <option key={index} value={item.value}>{item.text}</option>)
-              )
+        <div align='center'>
+          <Button
+            bsStyle="primary"
+            onClick={
+              () => this.addHotel(this.state.hotelName)
             }
-          </FormControl>
-        </FormGroup>
-        {/* <FieldGroup
-          id="hotelNameInput"
-          type="text"
-          onRef={() => this.hotelNameInput}
-          label="Hotel name"
-          placeholder="Enter text"
-        /> */}
-        {/* <FieldGroup
-          id="roomTypeInput"
-          type="select"
-          placeholder="select"
-         optionArray={numRoomArr}
-        /> */}
-        <Button
-          bsStyle="primary"
-          onClick={
-            () => this.addHotel(this.state.hotelName, this.state.roomType, this.state.numRoom)
-          }
-        >Primary</Button>
+          >Add Hotel</Button>
+        </div>
+        <RoomCard
+          type={'Standard roomStandard roomStandard roomStandard roomStandard roomStandard roomStandard roomStandard roomStandard roomStandard roomStandard roomStandard roomStandard room'}
+          minPerson={'1'}
+          maxPerson={'2'}
+          numRoom={'4'}
+          price={'1,000'}
+        />
       </div>
     )
   }
@@ -118,11 +94,7 @@ const mapStateToProps = (state) => {
 }
 
 export const mapDispatchToProps = dispatch => ({
-  addHotelProp: (name, roomType, numRoom) => dispatch(addHotelToStore(name, roomType, numRoom)),
-  // changeTempProduct: (product, quantity) => dispatch(addTempProductToCart(product, quantity)),
-  // setProductToTempProduct: () => dispatch(setProductToTempProductInCart()),
-  // setTempProductToProduct: () => dispatch(setTempProductToProductInCart()),
-  // emptyCart: () => dispatch(emptyCartAction()),
+  addHotelProp: (name) => dispatch(addHotelToStore(name)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddHotel)

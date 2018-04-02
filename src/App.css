@@ -1,5 +1,9 @@
+p {
+  word-break: break-all
+}
+
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
