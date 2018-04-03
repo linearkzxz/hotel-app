@@ -77,12 +77,11 @@ class ManageRoom extends Component {
     } = this.state
     const { addHotelRoomProp } = this.props
     if (this.checkValidation()) {
+      addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
       if (pageType === 'add') {
-        addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
         this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0 })
       } else {
-        addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
-        this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0, pageType: 'add' })
+        this.handleCancelEditRoom()
       }
     }
   }
@@ -103,7 +102,7 @@ class ManageRoom extends Component {
     const pageTypeWord = pageType === 'add' ? 'Add' : 'Edit'
     if (!hotels[hotelId]) {
       history.push({
-        pathname: '/add-hotel',
+        pathname: '/manage-hotel',
       })
       return true
     } else {
@@ -121,6 +120,7 @@ class ManageRoom extends Component {
           <div style={{ padding: '20px 50px 0 50px' }} align='center'>
             <RoomForm
               handleChange={this.handleChange}
+              handleChangeCheckbox={this.handleChangeCheckbox}
               roomType={roomType}
               minPerson={minPerson}
               maxPerson={maxPerson}
@@ -137,7 +137,7 @@ class ManageRoom extends Component {
               {`${pageTypeWord} room`}
             </Button>
             {
-              pageType === 'edit' && (
+              pageType === 'edit' ? (
                 <span style={{ marginLeft: '20px' }}>
                   <Button
                     bsStyle="danger"
@@ -146,7 +146,21 @@ class ManageRoom extends Component {
                     {`Cancel`}
                   </Button>
                 </span>
-              )
+              ) : (
+                  <span style={{ marginLeft: '20px' }}>
+                    <Button
+                      bsStyle="info"
+                      onClick={() => {
+                        history.push({
+                          pathname: '/manage-hotel',
+                          state: { hotelId: hotelId }
+                        })
+                      }}
+                    >
+                      {`Back`}
+                    </Button>
+                  </span>
+                )
             }
           </div>
           <div style={{ margin: '30px 0 30px 0' }}>

@@ -1,11 +1,9 @@
 import ManageHotel from './ManageHotel'
-import ReserveHotel from './ReserveHotel'
-import AddHotel from './AddHotel'
 import ManageRoom from './ManageRoom'
+import ReserveHotel from './ReserveHotel'
 
 export {
     ManageHotel,
-    ReserveHotel,
-    AddHotel,
     ManageRoom,
+    ReserveHotel,
 }

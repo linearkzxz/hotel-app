@@ -42,9 +42,7 @@ class RoomForm extends Component {
             onChange={(e) => this.handleChange(e, 'roomType')}
           />
           {isRoomTypeErr && (
-            <span style={{ color: 'red' }}>
-              <ControlLabel>{'Room type is require.'}</ControlLabel>
-            </span>
+            <ControlLabel style={{ color: 'red' }}>{'Room type is require.'}</ControlLabel>
           )}
         </FormGroup>
         <div className='field-div'>
@@ -98,17 +96,6 @@ class RoomForm extends Component {
                 )
               }
             </FormControl>
-          </FormGroup>
-        </div>
-        <div>
-          <FormGroup>
-            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdfdfdfdfdf1</Checkbox>
-            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
-            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
-            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
-            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
-            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
-            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf3</Checkbox>
           </FormGroup>
         </div>
         <div className='field-div'>

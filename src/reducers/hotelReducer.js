@@ -1,26 +1,48 @@
-// import _ from 'lodash'
+import _ from 'lodash'
 import {
   ADD_HOTEL_TO_STORE,
-  ADD_HOTEL_ROOM,
+  REMOVE_HOTEL_FROM_STORE,
+  ADD_HOTEL_ROOM_TO_STORE,
 } from '../constants/ActionTypes'
 // import { isEmpty } from '../utils/validation'
 
 const initState = {
   hotels: {
-    ['123456789']: {
-      hotelId: '123456789',
+    ['111111111']: {
+      hotelId: '111111111',
       name: 'Hotel A',
       rooms: {
-        ['123456789123456789']: {
-          roomId: '123456789123456789',
+        ['111111111111111111']: {
+          roomId: '111111111111111111',
           type: 'Standard room',
           minPerson: 1,
           maxPerson: 2,
-          numRoom: 5,
-          price: 300,
+          numRoom: 4,
+          price: 600,
+        },
+        ['222222222222222222']: {
+          roomId: '222222222222222222',
+          type: 'Standard room',
+          minPerson: 3,
+          maxPerson: 4,
+          numRoom: 4,
+          price: 1100,
+        },
+        ['333333333333333333']: {
+          roomId: '333333333333333333',
+          type: 'Deluxe room',
+          minPerson: 5,
+          maxPerson: 6,
+          numRoom: 4,
+          price: 1500,
         },
       },
-      facility: [],
+      facilities: {
+        ['Free breakfast']: true,
+        ['Free wifi']: true,
+        ['Pool']: false,
+        ['Car rest']: false,
+      },
     },
   },
 }
@@ -33,14 +55,15 @@ const hotelReducer = (state = initState, action) => {
         hotels: {
           ...state.hotels,
           [action.hotelId]: {
+            ...state.hotels[action.hotelId],
             hotelId: action.hotelId,
             name: action.name,
-            rooms: {},
+            facilities: action.facilities,
           }
         }
       }
     }
-    case ADD_HOTEL_ROOM: {
+    case ADD_HOTEL_ROOM_TO_STORE: {
       return {
         ...state,
         hotels: {
@@ -57,9 +80,16 @@ const hotelReducer = (state = initState, action) => {
                 numRoom: parseInt(action.numRoom),
                 price: parseInt(action.roomPrice),
               }
-            }
+            },
           }
         }
+      }
+    }
+    case REMOVE_HOTEL_FROM_STORE: {
+      const hotelsAfterRemove = _.omit(state.hotels, [action.hotelId])
+      return {
+        ...state,
+        hotels: hotelsAfterRemove,
       }
     }
     default:

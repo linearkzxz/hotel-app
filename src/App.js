@@ -4,9 +4,8 @@ import { Navbar, Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem } from '
 import { LinkContainer } from 'react-router-bootstrap'
 import {
   ManageHotel,
-  ReserveHotel,
-  AddHotel,
   ManageRoom,
+  ReserveHotel,
 } from "./components"
 import logo from './logo.svg'
 import './App.css'
@@ -54,9 +53,8 @@ class App extends Component {
             </div> */}
             <Route exact path="/" component={ManageHotel} />
             <Route path="/manage-hotel" component={ManageHotel} />
+            <Route path="/manage-room" component={ManageRoom} />
             <Route path="/reserver-hotel" component={ReserveHotel} />
-            <Route path="/add-hotel" component={AddHotel} />
-            <Route path="/add-room" component={ManageRoom} />
           </div>
         </Router>
       </div>
