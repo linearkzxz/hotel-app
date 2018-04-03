@@ -65,7 +65,7 @@ class AddHotel extends Component {
         </FormGroup>
         <div align='center'>
           <Button
-            bsStyle="primary"
+            bsStyle="success"
             onClick={
               () => this.addHotel(hotelId, this.state.hotelName)
             }

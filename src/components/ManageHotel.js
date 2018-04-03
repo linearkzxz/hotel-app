@@ -33,6 +33,7 @@ class ManageHotel extends Component {
           <ListGroup>
             {!!hotels && hotels.map((item) => (
               <HotelCard
+                key={item.id}
                 hotelId={item.hotelId}
                 name={item.name}
                 handleEdit={() => this.handleEdit(item.hotelId)}

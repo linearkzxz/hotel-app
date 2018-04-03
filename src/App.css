@@ -1,5 +1,14 @@
 p {
-  word-break: break-all
+  word-break: break-all;
+  color: #336699;
+}
+
+label {
+  color: #336699;
+}
+
+h1 {
+  color: #336699;
 }
 
 .App {

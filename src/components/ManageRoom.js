@@ -27,20 +27,21 @@ class ManageRoom extends Component {
       roomType: '',
       minPerson: 1,
       maxPerson: 1,
-      numRoom: 0,
+      numRoom: 1,
       roomPrice: 0,
       pageType: 'add',
       roomId: '',
+      isRoomTypeErr: null,
     }
-
   }
 
-  getValidationState() {
-    const length = this.state.value.length;
-    if (length > 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
-    return null;
+  checkValidation = () => {
+    if (!this.state.roomType) {
+      this.setState({ isRoomTypeErr: 'error' })
+      return false
+    }
+    this.setState({ isRoomTypeErr: null })
+    return true
   }
 
   handleChange(e, key) {
@@ -48,7 +49,6 @@ class ManageRoom extends Component {
   }
 
   handleEditRoom = (item) => {
-    console.log('item', item)
     this.setState({
       roomType: item.type,
       minPerson: item.minPerson,
@@ -58,16 +58,33 @@ class ManageRoom extends Component {
       pageType: 'edit',
       roomId: item.roomId,
     })
+    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
   }
 
-  renderRoom = (rooms) => {
-    return (
-      rooms.map(item => (
-        <div>
-          <p>{item.type}</p>
-        </div>
-      ))
-    )
+  handleCancelEditRoom = () => {
+    this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0, pageType: 'add' })
+  }
+
+  submitForm = (hotelId, roomId) => {
+    const {
+      roomType,
+      minPerson,
+      maxPerson,
+      numRoom,
+      roomPrice,
+      pageType,
+      roomId: roomIdState,
+    } = this.state
+    const { addHotelRoomProp } = this.props
+    if (this.checkValidation()) {
+      if (pageType === 'add') {
+        addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
+        this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0 })
+      } else {
+        addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
+        this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0, pageType: 'add' })
+      }
+    }
   }
 
   render() {
@@ -79,10 +96,11 @@ class ManageRoom extends Component {
       roomPrice,
       pageType,
       roomId: roomIdState,
+      isRoomTypeErr,
     } = this.state
     const { hotels, location, addHotelRoomProp, history } = this.props
     const { hotelId = '' } = location.state || {}
-
+    const pageTypeWord = pageType === 'add' ? 'Add' : 'Edit'
     if (!hotels[hotelId]) {
       history.push({
         pathname: '/add-hotel',
@@ -99,7 +117,7 @@ class ManageRoom extends Component {
       }
       return (
         <div className='container'>
-          <h1>{`Add ${name}'s room`}</h1>
+          <h1>{`${pageTypeWord} ${name}'s room`}</h1>
           <div style={{ padding: '20px 50px 0 50px' }} align='center'>
             <RoomForm
               handleChange={this.handleChange}
@@ -108,39 +126,30 @@ class ManageRoom extends Component {
               maxPerson={maxPerson}
               numRoom={numRoom}
               roomPrice={roomPrice}
+              isRoomTypeErr={isRoomTypeErr}
             />
           </div>
           <div align='center'>
-            {pageType === 'add' ? (
-              <Button
-                bsStyle="primary"
-                onClick={
-                  () => {
-                    addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
-                    this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0 })
-                  }
-                }
-              >
-                Add room
-              </Button>
-            ) : (
-                <Button
-                  bsStyle="primary"
-                  onClick={
-                    () => {
-                      addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
-                      this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0, pageType: 'add' })
-                    }
-                  }
-                >
-                  Edit room
-              </Button>
+            <Button
+              bsStyle="success"
+              onClick={() => { this.submitForm(hotelId, roomId) }}
+            >
+              {`${pageTypeWord} room`}
+            </Button>
+            {
+              pageType === 'edit' && (
+                <span style={{ marginLeft: '20px' }}>
+                  <Button
+                    bsStyle="danger"
+                    onClick={() => { this.handleCancelEditRoom() }}
+                  >
+                    {`Cancel`}
+                  </Button>
+                </span>
               )
             }
-
           </div>
           <div style={{ margin: '30px 0 30px 0' }}>
-            {/* {this.renderRoom(rooms)} */}
             {!!rooms && rooms.map((item) => (
               <RoomCard
                 key={item.roomId}

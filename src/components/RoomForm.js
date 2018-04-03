@@ -7,6 +7,7 @@ import {
   FormControl,
   ControlLabel,
   HelpBlock,
+  Checkbox,
 } from 'react-bootstrap'
 import { FieldGroup } from '../commons'
 import { addHotelRoom } from '../actions/hotelAction'
@@ -24,7 +25,8 @@ class RoomForm extends Component {
       minPerson,
       maxPerson,
       numRoom,
-      roomPrice
+      roomPrice,
+      isRoomTypeErr,
     } = this.props
     const numRoomArr = Array(20).fill(0).map((v, i) => ({
       value: i + 1,
@@ -39,6 +41,11 @@ class RoomForm extends Component {
             placeholder={'Room type'}
             onChange={(e) => this.handleChange(e, 'roomType')}
           />
+          {isRoomTypeErr && (
+            <span style={{ color: 'red' }}>
+              <ControlLabel>{'Room type is require.'}</ControlLabel>
+            </span>
+          )}
         </FormGroup>
         <div className='field-div'>
           <Form inline>
@@ -91,6 +98,17 @@ class RoomForm extends Component {
                 )
               }
             </FormControl>
+          </FormGroup>
+        </div>
+        <div>
+          <FormGroup>
+            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdfdfdfdfdf1</Checkbox>
+            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
+            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
+            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
+            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
+            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf2</Checkbox>
+            <Checkbox inline>dfdfdfdfdfdfdfdfdfdfdf3</Checkbox>
           </FormGroup>
         </div>
         <div className='field-div'>

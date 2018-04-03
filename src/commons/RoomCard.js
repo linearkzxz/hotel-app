@@ -16,7 +16,7 @@ const RoomCard = ({ type, minPerson, maxPerson, numRoom, price, handleEdit }) =>
       <Grid>
         <Row className="show-grid">
           <Col xs={12} md={6}>
-            <p style={{}}>{`${type}`}</p>
+            <p>{`${type}`}</p>
           </Col>
           <Col xs={8} md={4}>
             <Row className="show-grid">
@@ -31,10 +31,13 @@ const RoomCard = ({ type, minPerson, maxPerson, numRoom, price, handleEdit }) =>
               </Col>
             </Row>
           </Col>
-          <Col xs={4} md={2} style={{ textAlign: 'center' }}>
+          <Col xs={4} md={2}>
             <Row className="show-grid">
               <Col xs={12}>
-                <Button onClick={() => handleEdit()}>Edit</Button>
+                <Button bsStyle="primary" onClick={() => handleEdit()}>Edit</Button>
+              </Col>
+              <Col xs={12} style={{ marginTop: '15px' }}>
+                <Button bsStyle="danger" onClick={() => handleEdit()}>Delete</Button>
               </Col>
             </Row>
           </Col>

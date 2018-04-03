@@ -29,8 +29,8 @@ class App extends Component {
                   <NavItem eventKey={1}>
                     <Link to="/manage-hotel">Manage Hotel</Link>
                   </NavItem>
-                  <NavItem eventKey={2} href="/reserver-hotel">
-                    Manage Hotel
+                  <NavItem eventKey={2}>
+                    <Link to="/reserver-hotel">Reserve Hotel</Link>
                   </NavItem>
                   <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                     <MenuItem eventKey={3.1}>Action</MenuItem>
