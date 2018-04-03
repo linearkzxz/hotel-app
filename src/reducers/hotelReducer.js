@@ -25,7 +25,7 @@ const initState = {
           type: 'Standard room',
           minPerson: 3,
           maxPerson: 4,
-          numRoom: 4,
+          numRoom: 7,
           price: 1100,
         },
         ['333333333333333333']: {
@@ -33,7 +33,7 @@ const initState = {
           type: 'Deluxe room',
           minPerson: 5,
           maxPerson: 6,
-          numRoom: 4,
+          numRoom: 2,
           price: 1500,
         },
       },

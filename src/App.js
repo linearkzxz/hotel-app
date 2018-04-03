@@ -6,6 +6,7 @@ import {
   ManageHotel,
   ManageRoom,
   ReserveHotel,
+  ReserveRoom,
 } from "./components"
 import logo from './logo.svg'
 import './App.css'
@@ -29,7 +30,7 @@ class App extends Component {
                     <Link to="/manage-hotel">Manage Hotel</Link>
                   </NavItem>
                   <NavItem eventKey={2}>
-                    <Link to="/reserver-hotel">Reserve Hotel</Link>
+                    <Link to="/reserve-hotel">Reserve Hotel</Link>
                   </NavItem>
                   <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                     <MenuItem eventKey={3.1}>Action</MenuItem>
@@ -54,7 +55,8 @@ class App extends Component {
             <Route exact path="/" component={ManageHotel} />
             <Route path="/manage-hotel" component={ManageHotel} />
             <Route path="/manage-room" component={ManageRoom} />
-            <Route path="/reserver-hotel" component={ReserveHotel} />
+            <Route path="/reserve-hotel" component={ReserveHotel} />
+            <Route path="/reserve-room" component={ReserveRoom} />
           </div>
         </Router>
       </div>
@@ -63,25 +65,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-// <Router>
-// <div>
-//   <ul>
-//     <li>
-//       <Link to="/">Home</Link>
-//     </li>
-//     <li>
-//       <Link to="/manage-hotel">Manage Hotel</Link>
-//     </li>
-//     <li>
-//       <Link to="/topics">Topics</Link>
-//     </li>
-//   </ul>
-
-//   <hr />
-
-//   {/* <Route exact path="/" component={Home} /> */}
-//   <Route path="/manage-hotel" component={ManageHotel} />
-// </div>
-// </Router>
