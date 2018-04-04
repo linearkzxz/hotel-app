@@ -118,7 +118,7 @@ class ManageHotel extends Component {
     }
 
     return (
-      <div style={{ padding: '0px 50px 0 50px' }} align='left'>
+      <div className='container'>
         <div align='center'>
           <h1>Manage Hotel</h1>
         </div>
@@ -133,14 +133,12 @@ class ManageHotel extends Component {
             <ControlLabel style={{ color: 'red' }}>{'Hotel name is require.'}</ControlLabel>
           )}
         </FormGroup>
-        <div>
-          <FormGroup>
-            <div>
-              <ControlLabel>{'Facility'}</ControlLabel>
-            </div>
-            {facilityArr.map((item, index) => <Checkbox inline key={index} checked={facilities[item]} onChange={(e) => this.handleChangeCheckbox(e, item)}>{item}</Checkbox>)}
-          </FormGroup>
-        </div>
+        <FormGroup>
+          <div>
+            <ControlLabel>{'Facility'}</ControlLabel>
+          </div>
+          {facilityArr.map((item, index) => <Checkbox inline key={index} checked={facilities[item]} onChange={(e) => this.handleChangeCheckbox(e, item)}>{item}</Checkbox>)}
+        </FormGroup>
         <div align='center'>
           <Button
             bsStyle="success"

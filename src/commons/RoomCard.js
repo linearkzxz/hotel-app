@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import './style.css'
 
 const RoomCard = ({
+  roomId,
   type,
   minPerson,
   maxPerson,
@@ -22,6 +23,7 @@ const RoomCard = ({
   handleEdit,
   handleBook,
   handleSelectRooms,
+  selectedRooms,
   isView,
 }) => {
   const room = numRoom + 1
@@ -47,7 +49,7 @@ const RoomCard = ({
                 </Col>
               }
               <Col xs={12}>
-                <p>{`${price} Bath / Day`}</p>
+                <p>{`${price} Baht / Day`}</p>
               </Col>
             </Row>
           </Col>
@@ -56,12 +58,12 @@ const RoomCard = ({
               <div>
                 <Col xs={2} md={1}>
                   <Row className="show-grid">
-                    <FormGroup controlId={'numRoomInput'}>
+                    <FormGroup controlId={'roomsInput'}>
                       <ControlLabel>{'Rooms'}</ControlLabel>
                       <FormControl
                         componentClass={'select'}
-                        value={room}
-                        onChange={(e) => this.handleChange(e, 'numRoom')}
+                        value={selectedRooms[roomId] || 0}
+                        onChange={(e) => handleSelectRooms(e)}
                       >
                         {
                           !!roomArr && (
@@ -98,6 +100,7 @@ const RoomCard = ({
 }
 
 RoomCard.propTypes = {
+  roomId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   minPerson: PropTypes.number.isRequired,
   maxPerson: PropTypes.number.isRequired,
@@ -106,6 +109,7 @@ RoomCard.propTypes = {
   handleEdit: PropTypes.func,
   handleBook: PropTypes.func,
   handleSelectRooms: PropTypes.func,
+  selectedRooms: PropTypes.number,
   isView: PropTypes.bool,
 }
 
@@ -113,6 +117,7 @@ RoomCard.defaltProps = {
   handleEdit: () => { },
   handleBook: () => { },
   handleSelectRooms: () => { },
+  selectedRooms: () => { },
   isView: false,
 }
 

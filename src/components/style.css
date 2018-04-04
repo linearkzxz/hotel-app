@@ -1,3 +1,11 @@
 .field-div {
   padding: 10px 0 10px 0
 }
+
+.search-div {
+  border: 1px solid lightgrey;
+}
+
+.search-sub-div {
+  padding: 20px;
+}

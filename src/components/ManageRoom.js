@@ -12,6 +12,7 @@ import {
 import { RoomCard } from '../commons'
 import { addHotelRoom } from '../actions/hotelAction'
 import RoomForm from './RoomForm'
+import { addCommaFromInteger } from '../utils/utilFunction'
 
 class ManageRoom extends Component {
   static propTypes = {
@@ -167,11 +168,12 @@ class ManageRoom extends Component {
             {!!rooms && rooms.map((item) => (
               <RoomCard
                 key={item.roomId}
+                roomId={item.roomId}
                 type={item.type}
                 minPerson={item.minPerson}
                 maxPerson={item.maxPerson}
                 numRoom={item.numRoom}
-                price={item.price}
+                price={addCommaFromInteger(item.price)}
                 handleEdit={() => this.handleEditRoom(item)}
               />
             ))}

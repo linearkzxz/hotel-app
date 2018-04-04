@@ -100,7 +100,7 @@ class RoomForm extends Component {
         </div>
         <div className='field-div'>
           <FormGroup controlId={'roomPriceInput'}>
-            <ControlLabel>{'Room price (Bath / day)'}</ControlLabel>
+            <ControlLabel>{'Room price (Baht / day)'}</ControlLabel>
             <FormControl
               type={'number'}
               value={roomPrice}

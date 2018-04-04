@@ -34,7 +34,7 @@ const HotelCard = ({
               <Col xs={12}>
                 <p>{`Facilities`}</p>
                 {!!facilitiesAviliable && (
-                  facilitiesAviliable.map(item => <ul>{`${item} `}</ul>)
+                  facilitiesAviliable.map((item, index) => <ul key={index}>{`${item} `}</ul>)
                 )}
               </Col>
             </Row>

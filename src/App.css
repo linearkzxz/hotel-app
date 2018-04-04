@@ -3,6 +3,16 @@ p {
   color: #336699;
 }
 
+a, a:active {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover, a:focus{
+  color: lightgrey;
+  text-decoration: none;
+}
+
 label {
   color: #336699;
 }
