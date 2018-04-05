@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import {
-  Button,
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  HelpBlock,
-} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { RoomCard } from '../commons'
 import { addHotelRoom } from '../actions/hotelAction'
 import RoomForm from './RoomForm'
@@ -73,7 +65,6 @@ class ManageRoom extends Component {
       numRoom,
       roomPrice,
       pageType,
-      roomId: roomIdState,
     } = this.state
     const { addHotelRoomProp } = this.props
     if (this.checkValidation()) {
@@ -97,23 +88,18 @@ class ManageRoom extends Component {
       roomId: roomIdState,
       isRoomTypeErr,
     } = this.state
-    const { match, hotels, addHotelRoomProp, history } = this.props
+    const { match, hotels, history } = this.props
     const hotelId = match.params.hotelId
     const pageTypeWord = pageType === 'add' ? 'Add' : 'Edit'
     if (!hotels[hotelId]) {
-      history.push({
+      history.replace({
         pathname: '/not-found',
       })
       return true
     } else {
       const { name = '', rooms: r = {} } = hotels[hotelId]
       const rooms = Object.values(r)
-      let roomId = ''
-      if (pageType === 'add') {
-        roomId = hotelId.toString() + (new Date().getTime()).toString()
-      } else {
-        roomId = roomIdState
-      }
+      const roomId = pageType === 'add' ? hotelId.toString() + (new Date().getTime()).toString() : roomIdState
       return (
         <div className='container'>
           <h1>{`${pageTypeWord} ${name}'s room`}</h1>

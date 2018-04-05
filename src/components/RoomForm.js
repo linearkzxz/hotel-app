@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import {
-  Button,
   Form,
   FormGroup,
   FormControl,
   ControlLabel,
-  HelpBlock,
-  Checkbox,
 } from 'react-bootstrap'
-import { FieldGroup } from '../commons'
-import { addHotelRoom } from '../actions/hotelAction'
 import './style.css'
 
 class RoomForm extends Component {
@@ -20,7 +14,6 @@ class RoomForm extends Component {
 
   render() {
     const {
-      hotels,
       roomType,
       minPerson,
       maxPerson,

@@ -106,11 +106,11 @@ RoomCard.propTypes = {
   minPerson: PropTypes.number.isRequired,
   maxPerson: PropTypes.number.isRequired,
   numRoom: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
+  price: PropTypes.string.isRequired,
   handleEdit: PropTypes.func,
   handleBook: PropTypes.func,
   handleSelectRooms: PropTypes.func,
-  selectedRooms: PropTypes.number,
+  selectedRooms: PropTypes.object,
   isView: PropTypes.bool,
 }
 

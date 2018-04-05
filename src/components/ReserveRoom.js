@@ -1,19 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import {
-  Button,
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  HelpBlock,
-  Alert,
-} from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import { RoomCard } from '../commons'
 import { bookedRoom } from '../actions/hotelAction'
-import RoomForm from './RoomForm'
-import { addCommaFromInteger } from '../utils/utilFunction'
+import { addCommaFromInteger, getParams } from '../utils/utilFunction'
 
 class ReserveRoom extends Component {
   static propTypes = {
@@ -39,7 +29,7 @@ class ReserveRoom extends Component {
   }
 
   bookedRoomFunc = (hotelId, roomId, numSelectedRooms) => {
-    const { bookedRoomProps, history } = this.props
+    const { bookedRoomProps } = this.props
     if (numSelectedRooms) {
       bookedRoomProps(hotelId, roomId, numSelectedRooms)
       this.setState({ showAlertSuccess: 'success', selectedRooms: 0, selectedRoomsId: '' })
@@ -69,30 +59,36 @@ class ReserveRoom extends Component {
 
   render() {
     const { selectedRooms, selectedRoomsId, showAlertSuccess } = this.state
-    const { match, hotels, history } = this.props
+    const { match, hotels, history, location } = this.props
     const hotelId = match.params.hotelId
+    const {
+      min: searchMin = -999999999999999,
+      max: searchMax = 999999999999999,
+    } = getParams(location.search)
+
     if (!hotels[hotelId]) {
-      history.push({
+      history.replace({
         pathname: '/not-found',
       })
       return true
     } else {
       const { name = '', rooms: roomsObj = {} } = hotels[hotelId]
       const rooms = Object.values(roomsObj)
-      let payBaht = 0
-      if (selectedRoomsId) {
-        payBaht = selectedRooms[selectedRoomsId] * roomsObj[selectedRoomsId].price
-      }
+      const filteredRooms = rooms.filter(room => (
+        (room.price >= parseInt(searchMin, 10)) && (room.price <= parseInt(searchMax, 10))
+      ))
+      const payBaht = selectedRoomsId ? selectedRooms[selectedRoomsId] * roomsObj[selectedRoomsId].price : 0
+
       return (
         <div className='container'>
           <div align='center'>
             <h1>Reserve Room</h1>
           </div>
-          <h1>{hotels[hotelId].name}</h1>
+          <h1>{name}</h1>
           <h2>{`Pay: ${addCommaFromInteger(payBaht)} Baht`}</h2>
           {this.showAlert(showAlertSuccess)}
           <div style={{ margin: '30px 0 30px 0' }}>
-            {!!rooms && rooms.map((item) => (
+            {!!filteredRooms && filteredRooms.map((item) => (
               <RoomCard
                 key={item.roomId}
                 roomId={item.roomId}

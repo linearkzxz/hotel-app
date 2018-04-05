@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
   Button,
-  Form,
   FormGroup,
   FormControl,
   ControlLabel,
-  HelpBlock,
   Checkbox,
   ListGroup,
 } from 'react-bootstrap'
-import { HotelCard, RoomCard } from '../commons'
+import { HotelCard } from '../commons'
 import { addHotelToStore, removeHotel } from '../actions/hotelAction'
 
 class ManageHotel extends Component {
@@ -55,10 +53,10 @@ class ManageHotel extends Component {
     this.setState({
       hotelName: '',
       facilities: {
-        ['Free breakfast']: false,
-        ['Free wifi']: false,
-        ['Pool']: false,
-        ['Car rest']: false,
+        'Free breakfast': false,
+        'Free wifi': false,
+        'Pool': false,
+        'Car rest': false,
       },
       pageType: 'add',
     })
@@ -76,7 +74,7 @@ class ManageHotel extends Component {
   }
 
   addHotel = (hotelId, name, facilities) => {
-    const { isHotelNameErr, pageType } = this.state
+    const { pageType } = this.state
     const { addHotelProp, history } = this.props
 
     if (!name) {
@@ -105,16 +103,10 @@ class ManageHotel extends Component {
       hotelId:
       hotelIdState
     } = this.state
-    const { history, hotels } = this.props
+    const { hotels } = this.props
     const facilityArr = ['Free breakfast', 'Free wifi', 'Pool', 'Car rest']
     const pageTypeWord = pageType === 'add' ? 'Add' : 'Edit'
-    let hotelId = ''
-    if (pageType === 'add') {
-      hotelId = (new Date().getTime()).toString()
-    } else {
-      hotelId = hotelIdState
-    }
-
+    let hotelId = pageType === 'add' ? (new Date().getTime()).toString() : hotelIdState
     return (
       <div className='container'>
         <div align='center'>

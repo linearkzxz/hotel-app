@@ -5,16 +5,14 @@ import {
   Row,
   Col,
   Button,
-  Form,
   FormGroup,
   FormControl,
   ControlLabel,
-  HelpBlock,
   Checkbox,
   ListGroup,
 } from 'react-bootstrap'
-import { HotelCard, RoomCard } from '../commons'
-import { addHotelToStore, removeHotel } from '../actions/hotelAction'
+import { HotelCard } from '../commons'
+import { isEmpty } from '../utils/utilFunction'
 
 class ReserveHotel extends Component {
   constructor(props, context) {
@@ -49,10 +47,7 @@ class ReserveHotel extends Component {
   }
 
   handleReserveHotel = (hotelId) => {
-    let searchStringParams = ''
-    if (this.searchString) {
-      searchStringParams = '?' + this.searchString
-    }
+    const searchStringParams = this.searchString ? '?' + this.searchString : ''
     this.props.history.push({
       pathname: '/reserve-room/' + hotelId,
       search: searchStringParams,
@@ -60,48 +55,44 @@ class ReserveHotel extends Component {
   }
 
   filterHotel = () => {
-    const { filteredHotels, hotelName, minPrice, maxPrice, facilities } = this.state
+    const { hotelName, minPrice, maxPrice, facilities } = this.state
     const { hotels } = this.props
+    this.searchString = ''
     let newFilteredHotels = hotels
 
-    if (minPrice) {
-      this.searchString = this.searchString + 'min=' + parseInt(minPrice, 10)
-      newFilteredHotels = newFilteredHotels.filter((hotel) => {
-        console.log(hotel)
-        return (hotel.rooms).filter((room) => room.price > parseInt(minPrice, 10))
-      })
-    }
-    if (maxPrice) {
-      this.searchString = this.searchString + 'max=' + maxPrice
+    if (minPrice && maxPrice) {
+      this.searchString = 'min=' + parseInt(minPrice, 10) + '&max=' + parseInt(maxPrice, 10)
+      newFilteredHotels = newFilteredHotels.filter((hotel) => (
+        !isEmpty(Object.values(hotel.rooms).filter((room) => (
+          (room.price >= parseInt(minPrice, 10)) && (room.price <= parseInt(maxPrice, 10))
+        )))
+      ))
+    } else if (maxPrice) {
+      this.searchString = 'max=' + parseInt(maxPrice, 10)
+      newFilteredHotels = newFilteredHotels.filter((hotel) => (
+        !isEmpty(Object.values(hotel.rooms).filter((room) => room.price <= parseInt(maxPrice, 10)))
+      ))
     }
     if (hotelName) {
       newFilteredHotels = newFilteredHotels.filter((hotel) => hotel.name.includes(hotelName))
     }
     if (facilities['Free breakfast']) {
-      newFilteredHotels = this.filterFacilities(newFilteredHotels, 'Free breakfast')
+      newFilteredHotels = newFilteredHotels.filter((hotel) => hotel.facilities['Free breakfast'])
     }
     if (facilities['Free wifi']) {
-      newFilteredHotels = this.filterFacilities(newFilteredHotels, 'Free wifi')
+      newFilteredHotels = newFilteredHotels.filter((hotel) => hotel.facilities['Free wifi'])
     }
     if (facilities['Pool']) {
-      newFilteredHotels = this.filterFacilities(newFilteredHotels, 'Pool')
+      newFilteredHotels = newFilteredHotels.filter((hotel) => hotel.facilities['Pool'])
     }
     if (facilities['Car rest']) {
-      newFilteredHotels = this.filterFacilities(newFilteredHotels, 'Car rest')
+      newFilteredHotels = newFilteredHotels.filter((hotel) => hotel.facilities['Car rest'])
     }
-
     this.setState({ filteredHotels: newFilteredHotels })
-    console.log('newFilteredHotels', newFilteredHotels)
-
-  }
-
-  filterFacilities = (hotels, facilityName) => {
-    return hotels.filter((hotel) => hotel.facilities[facilityName])
   }
 
   render() {
     const { filteredHotels, hotelName, minPrice, maxPrice, facilities } = this.state
-    const { history, hotels } = this.props
     const facilityArr = ['Free breakfast', 'Free wifi', 'Pool', 'Car rest']
     return (
       <div className='container'>
@@ -193,9 +184,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export const mapDispatchToProps = dispatch => ({
-  // addHotelProp: (hotelId, name, facilities) => dispatch(addHotelToStore(hotelId, name, facilities)),
-  // removeHotelProps: (hotelId) => dispatch(removeHotel(hotelId)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReserveHotel)
+export default connect(mapStateToProps)(ReserveHotel)

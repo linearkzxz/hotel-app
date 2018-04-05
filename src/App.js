@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch, Link, NavLink } from "react-router-dom"
-import { Navbar, Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom"
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import {
   ManageHotel,
   ManageRoom,
@@ -9,7 +8,6 @@ import {
   ReserveRoom,
   NotFound,
 } from "./components"
-import logo from './logo.svg'
 import './App.css'
 
 class App extends Component {
@@ -27,25 +25,15 @@ class App extends Component {
               </Navbar.Header>
               <Navbar.Collapse>
                 <Nav>
-                  <NavItem eventKey={1}>
+                  <NavItem eventKey={1} componentClass="span" style={{ padding: '15px' }}>
                     <Link to="/manage-hotel">Manage Hotel</Link>
                   </NavItem>
-                  <NavItem eventKey={2}>
+                  <NavItem eventKey={2} componentClass="span" style={{ padding: '15px' }}>
                     <Link to="/reserve-hotel">Reserve Hotel</Link>
                   </NavItem>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
-            {/* <div className="App">
-              <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <h1 className="App-title">Welcome to React</h1>
-              </header>
-              <p className="App-intro">
-                To get started, edit <code>src/App.js</code> and save to reload.
-              </p>
-
-            </div> */}
             <Switch>
               <Route exact path="/" component={ManageHotel} />
               <Route path="/manage-hotel" component={ManageHotel} />
@@ -57,7 +45,7 @@ class App extends Component {
 
           </div>
         </Router>
-      </div>
+      </div >
     );
   }
 }
