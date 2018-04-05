@@ -66,8 +66,7 @@ class ManageHotel extends Component {
 
   handleManageRoom = (hotelId) => {
     this.props.history.push({
-      pathname: '/manage-room',
-      state: { hotelId: hotelId }
+      pathname: '/manage-room/' + hotelId,
     })
   }
 
@@ -86,8 +85,7 @@ class ManageHotel extends Component {
       if (pageType === 'add') {
         addHotelProp(hotelId, name, facilities)
         history.push({
-          pathname: '/manage-room',
-          state: { hotelId: hotelId }
+          pathname: '/manage-room/' + hotelId,
         })
         this.setState({ isHotelNameErr: null })
       }

@@ -2,6 +2,7 @@ import {
   ADD_HOTEL_TO_STORE,
   REMOVE_HOTEL_FROM_STORE,
   ADD_HOTEL_ROOM_TO_STORE,
+  BOOKED_ROOM,
 } from '../constants/ActionTypes'
 
 export const addHotelToStore = (hotelId, name, facilities) => ({
@@ -28,3 +29,10 @@ export const addHotelRoom = (hotelId, roomId, roomType, minPerson, maxPerson, nu
     roomPrice,
   }
 }
+
+export const bookedRoom = (hotelId, roomId, numSelectedRooms) => ({
+  type: BOOKED_ROOM,
+  hotelId,
+  roomId,
+  numSelectedRooms,
+})

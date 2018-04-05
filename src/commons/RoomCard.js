@@ -31,6 +31,7 @@ const RoomCard = ({
     value: i,
     text: i,
   }))
+  const numSelectedRooms = selectedRooms && selectedRooms[roomId] ? selectedRooms[roomId] : 0
   return (
     <div className='room-card-div'>
       <Grid>
@@ -62,7 +63,7 @@ const RoomCard = ({
                       <ControlLabel>{'Rooms'}</ControlLabel>
                       <FormControl
                         componentClass={'select'}
-                        value={selectedRooms[roomId] || 0}
+                        value={numSelectedRooms}
                         onChange={(e) => handleSelectRooms(e)}
                       >
                         {
@@ -76,7 +77,7 @@ const RoomCard = ({
                 </Col>
                 <Col xs={2} md={1} xsOffset={1} mdOffset={1}>
                   <Row className="show-grid" style={{ marginTop: '23px' }}>
-                    <Button bsStyle="success" onClick={() => handleBook()}>Book now</Button>
+                    <Button bsStyle="success" onClick={() => handleBook(numSelectedRooms)}>Book now</Button>
                   </Row>
                 </Col>
               </div>

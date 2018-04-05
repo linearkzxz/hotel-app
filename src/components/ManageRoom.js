@@ -16,7 +16,6 @@ import { addCommaFromInteger } from '../utils/utilFunction'
 
 class ManageRoom extends Component {
   static propTypes = {
-    location: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -98,12 +97,12 @@ class ManageRoom extends Component {
       roomId: roomIdState,
       isRoomTypeErr,
     } = this.state
-    const { hotels, location, addHotelRoomProp, history } = this.props
-    const { hotelId = '' } = location.state || {}
+    const { match, hotels, addHotelRoomProp, history } = this.props
+    const hotelId = match.params.hotelId
     const pageTypeWord = pageType === 'add' ? 'Add' : 'Edit'
     if (!hotels[hotelId]) {
       history.push({
-        pathname: '/manage-hotel',
+        pathname: '/not-found',
       })
       return true
     } else {

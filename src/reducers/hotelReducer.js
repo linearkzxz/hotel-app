@@ -3,8 +3,8 @@ import {
   ADD_HOTEL_TO_STORE,
   REMOVE_HOTEL_FROM_STORE,
   ADD_HOTEL_ROOM_TO_STORE,
+  BOOKED_ROOM,
 } from '../constants/ActionTypes'
-// import { isEmpty } from '../utils/validation'
 
 const initState = {
   hotels: {
@@ -90,6 +90,24 @@ const hotelReducer = (state = initState, action) => {
       return {
         ...state,
         hotels: hotelsAfterRemove,
+      }
+    }
+    case BOOKED_ROOM: {
+      return {
+        ...state,
+        hotels: {
+          ...state.hotels,
+          [action.hotelId]: {
+            ...state.hotels[action.hotelId],
+            rooms: {
+              ...state.hotels[action.hotelId].rooms,
+              [action.roomId]: {
+                ...state.hotels[action.hotelId].rooms[action.roomId],
+                numRoom: state.hotels[action.hotelId].rooms[action.roomId].numRoom - parseInt(action.numSelectedRooms),
+              }
+            }
+          }
+        },
       }
     }
     default:

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch, Link, NavLink } from "react-router-dom"
 import { Navbar, Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import {
@@ -7,6 +7,7 @@ import {
   ManageRoom,
   ReserveHotel,
   ReserveRoom,
+  NotFound,
 } from "./components"
 import logo from './logo.svg'
 import './App.css'
@@ -45,11 +46,15 @@ class App extends Component {
               </p>
 
             </div> */}
-            <Route exact path="/" component={ManageHotel} />
-            <Route path="/manage-hotel" component={ManageHotel} />
-            <Route path="/manage-room" component={ManageRoom} />
-            <Route path="/reserve-hotel" component={ReserveHotel} />
-            <Route path="/reserve-room" component={ReserveRoom} />
+            <Switch>
+              <Route exact path="/" component={ManageHotel} />
+              <Route path="/manage-hotel" component={ManageHotel} />
+              <Route path="/manage-room/:hotelId" component={ManageRoom} />
+              <Route path="/reserve-hotel" component={ReserveHotel} />
+              <Route path="/reserve-room/:hotelId" component={ReserveRoom} />
+              <Route component={NotFound} />
+            </Switch>
+
           </div>
         </Router>
       </div>

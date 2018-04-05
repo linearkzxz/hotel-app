@@ -8,15 +8,15 @@ import {
   FormControl,
   ControlLabel,
   HelpBlock,
+  Alert,
 } from 'react-bootstrap'
 import { RoomCard } from '../commons'
-import { addHotelRoom } from '../actions/hotelAction'
+import { bookedRoom } from '../actions/hotelAction'
 import RoomForm from './RoomForm'
 import { addCommaFromInteger } from '../utils/utilFunction'
 
 class ReserveRoom extends Component {
   static propTypes = {
-    location: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -27,6 +27,7 @@ class ReserveRoom extends Component {
     this.state = {
       selectedRooms: {},
       selectedRoomsId: '',
+      showAlertSuccess: null,
     }
   }
 
@@ -37,13 +38,42 @@ class ReserveRoom extends Component {
     });
   }
 
+  bookedRoomFunc = (hotelId, roomId, numSelectedRooms) => {
+    const { bookedRoomProps, history } = this.props
+    if (numSelectedRooms) {
+      bookedRoomProps(hotelId, roomId, numSelectedRooms)
+      this.setState({ showAlertSuccess: 'success', selectedRooms: 0, selectedRoomsId: '' })
+    } else {
+      this.setState({ showAlertSuccess: 'danger' })
+    }
+    setTimeout(() => {
+      this.setState({ showAlertSuccess: null })
+    }, 3000)
+  }
+
+  showAlert = (showAlertSuccess) => {
+    if (showAlertSuccess === 'success') {
+      return (
+        <Alert bsStyle={showAlertSuccess}>
+          <strong>Booked success.</strong>
+        </Alert>
+      )
+    } else if (showAlertSuccess === 'danger') {
+      return (
+        <Alert bsStyle={showAlertSuccess}>
+          <strong>Please select rooms.</strong>
+        </Alert>
+      )
+    }
+  }
+
   render() {
-    const { selectedRooms, selectedRoomsId } = this.state
-    const { hotels, location, addHotelRoomProp, history } = this.props
-    const { hotelId = '' } = location.state || {}
+    const { selectedRooms, selectedRoomsId, showAlertSuccess } = this.state
+    const { match, hotels, history } = this.props
+    const hotelId = match.params.hotelId
     if (!hotels[hotelId]) {
       history.push({
-        pathname: '/reserve-hotel',
+        pathname: '/not-found',
       })
       return true
     } else {
@@ -60,6 +90,7 @@ class ReserveRoom extends Component {
           </div>
           <h1>{hotels[hotelId].name}</h1>
           <h2>{`Pay: ${addCommaFromInteger(payBaht)} Baht`}</h2>
+          {this.showAlert(showAlertSuccess)}
           <div style={{ margin: '30px 0 30px 0' }}>
             {!!rooms && rooms.map((item) => (
               <RoomCard
@@ -71,6 +102,7 @@ class ReserveRoom extends Component {
                 numRoom={item.numRoom}
                 price={addCommaFromInteger(item.price)}
                 handleSelectRooms={(e) => this.handleSelectRooms(e, item.roomId)}
+                handleBook={(numSelectedRooms) => this.bookedRoomFunc(hotelId, item.roomId, numSelectedRooms)}
                 selectedRooms={selectedRooms}
                 isView
               />
@@ -91,9 +123,9 @@ const mapStateToProps = (state) => {
 }
 
 export const mapDispatchToProps = dispatch => ({
-  // addHotelRoomProp: (hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice) => (
-  //   dispatch(addHotelRoom(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice))
-  // )
+  bookedRoomProps: (hotelId, roomId, numSelectedRooms) => (
+    dispatch(bookedRoom(hotelId, roomId, numSelectedRooms))
+  )
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReserveRoom)

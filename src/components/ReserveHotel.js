@@ -35,8 +35,7 @@ class ReserveHotel extends Component {
 
   handleReserveHotel = (hotelId) => {
     this.props.history.push({
-      pathname: '/reserve-room',
-      state: { hotelId: hotelId }
+      pathname: '/reserve-room/' + hotelId,
     })
   }
 
