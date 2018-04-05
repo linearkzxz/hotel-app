@@ -23,10 +23,10 @@ class ManageHotel extends Component {
       hotelName: '',
       isHotelNameErr: null,
       facilities: {
-        ['Free breakfast']: false,
-        ['Free wifi']: false,
-        ['Pool']: false,
-        ['Car rest']: false,
+        'Free breakfast': false,
+        'Free wifi': false,
+        'Pool': false,
+        'Car rest': false,
       },
       pageType: 'add',
     }
