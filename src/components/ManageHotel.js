@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import {
   Button,
   FormGroup,
@@ -11,7 +12,13 @@ import {
 import { HotelCard } from '../commons'
 import { addHotelToStore, removeHotel } from '../actions/hotelAction'
 
-class ManageHotel extends Component {
+export class ManageHotel extends Component {
+  static propTypes = {
+    hotels: PropTypes.array,
+    addHotelProp: PropTypes.func,
+    removeHotelProps: PropTypes.func,
+  }
+
   constructor(props, context) {
     super(props, context)
 

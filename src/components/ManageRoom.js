@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 import { RoomCard } from '../commons'
 import { addHotelRoom, removeRoom } from '../actions/hotelAction'
 import RoomForm from './RoomForm'
 import { addCommaFromInteger } from '../utils/utilFunction'
 
-class ManageRoom extends Component {
+export class ManageRoom extends Component {
   static propTypes = {
+    addHotelRoomProp: PropTypes.func,
+    match: PropTypes.object,
+    hotels: PropTypes.object,
+    history: PropTypes.object,
   }
 
   constructor(props, context) {
