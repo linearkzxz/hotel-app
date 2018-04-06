@@ -7,7 +7,7 @@ import {
   BOOKED_ROOM,
 } from '../constants/ActionTypes'
 
-const initState = {
+export const initState = {
   hotels: {
     '111111111': {
       hotelId: '111111111',

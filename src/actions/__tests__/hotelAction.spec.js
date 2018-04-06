@@ -16,29 +16,10 @@ import {
 
 const store = mockStore()
 
-describe('Cart Action', () => {
+describe('Hotel Action', () => {
   beforeEach(() => {
     store.clearActions()
   })
-
-  const item = {
-    point: 2,
-    price: 11050,
-    stock: 100,
-    status: 'active',
-    shopID: '12345980',
-    viewCount: 0,
-    productTitle: 'Blue Shrit',
-    categoryID: '124',
-    shopTitle: 'testshoppp',
-    productID: 'product:27c50add-8412-4ea0-bf3f-d1122ea4962a',
-    description: 'Blue Shrit for woman',
-    deliveryMethod: 'meetup',
-    images: [{
-      id: '774d64609d994d1c9944ab8f1a70f7cb',
-      uri: 'https://s3.amazonaws.com/shopbank/product/774d64609d994d1c9944ab8f1a70f7cb-115476824.jpg',
-    }],
-  }
 
   const hotelId = '11111111'
   const name = 'Hotel A'

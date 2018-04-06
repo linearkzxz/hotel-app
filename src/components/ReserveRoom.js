@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { Alert } from 'react-bootstrap'
 import { RoomCard } from '../commons'
 import { bookedRoom } from '../actions/hotelAction'
 import { addCommaFromInteger, getParams } from '../utils/utilFunction'
 
-class ReserveRoom extends Component {
+export class ReserveRoom extends Component {
   static propTypes = {
+    bookedRoomProps: PropTypes.func,
+    match: PropTypes.object,
+    hotels: PropTypes.object,
+    history: PropTypes.object,
+    location: PropTypes.object,
   }
 
   constructor(props, context) {
@@ -32,7 +38,7 @@ class ReserveRoom extends Component {
     const { bookedRoomProps } = this.props
     if (numSelectedRooms) {
       bookedRoomProps(hotelId, roomId, numSelectedRooms)
-      this.setState({ showAlertSuccess: 'success', selectedRooms: 0, selectedRoomsId: '' })
+      this.setState({ showAlertSuccess: 'success', selectedRooms: {}, selectedRoomsId: '' })
     } else {
       this.setState({ showAlertSuccess: 'danger' })
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import {
   Grid,
   Row,
@@ -14,7 +15,12 @@ import {
 import { HotelCard } from '../commons'
 import { isEmpty } from '../utils/utilFunction'
 
-class ReserveHotel extends Component {
+export class ReserveHotel extends Component {
+  static propTypes = {
+    hotels: PropTypes.array,
+    history: PropTypes.object,
+  }
+
   constructor(props, context) {
     super(props, context)
 

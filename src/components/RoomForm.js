@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   Form,
   FormGroup,
@@ -8,6 +9,16 @@ import {
 import './style.css'
 
 class RoomForm extends Component {
+  static propTypes = {
+    roomType: PropTypes.string,
+    minPerson: PropTypes.number,
+    maxPerson: PropTypes.number,
+    numRoom: PropTypes.number,
+    roomPrice: PropTypes.number,
+    isRoomTypeErr: PropTypes.string,
+    handleChange: PropTypes.func,
+  }
+
   handleChange(e, key) {
     this.props.handleChange(e, key)
   }
