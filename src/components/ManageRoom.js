@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { RoomCard } from '../commons'
-import { addHotelRoom } from '../actions/hotelAction'
+import { addHotelRoom, removeRoom } from '../actions/hotelAction'
 import RoomForm from './RoomForm'
 import { addCommaFromInteger } from '../utils/utilFunction'
 
@@ -40,6 +40,10 @@ class ManageRoom extends Component {
     this.setState({ [key]: e.target.value });
   }
 
+  handleCancelEditRoom = () => {
+    this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0, pageType: 'add' })
+  }
+
   handleEditRoom = (item) => {
     this.setState({
       roomType: item.type,
@@ -53,8 +57,9 @@ class ManageRoom extends Component {
     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
   }
 
-  handleCancelEditRoom = () => {
-    this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0, pageType: 'add' })
+  handleRemoveRoom = (hotelId, roomId) => {
+    this.props.removeRoomProps(hotelId, roomId)
+    this.handleCancelEditRoom()
   }
 
   submitForm = (hotelId, roomId) => {
@@ -160,6 +165,7 @@ class ManageRoom extends Component {
                 numRoom={item.numRoom}
                 price={addCommaFromInteger(item.price)}
                 handleEdit={() => this.handleEditRoom(item)}
+                handleRemove={() => this.handleRemoveRoom(hotelId, item.roomId)}
               />
             ))}
           </div>
@@ -180,7 +186,8 @@ const mapStateToProps = (state) => {
 export const mapDispatchToProps = dispatch => ({
   addHotelRoomProp: (hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice) => (
     dispatch(addHotelRoom(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice))
-  )
+  ),
+  removeRoomProps: (hotelId, roomId) => dispatch(removeRoom(hotelId, roomId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageRoom)

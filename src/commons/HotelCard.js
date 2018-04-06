@@ -1,12 +1,6 @@
 import React from 'react'
-import {
-  Button,
-} from 'react-bootstrap'
-import {
-  Grid,
-  Row,
-  Col,
-} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import { Grid, Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import './style.css'
 
@@ -76,6 +70,7 @@ HotelCard.propTypes = {
   handleEditHotel: PropTypes.func,
   handleManageRoom: PropTypes.func,
   handleRemoveHotel: PropTypes.func,
+  handleReserveHotel: PropTypes.func,
   isView: PropTypes.bool,
 }
 
@@ -83,6 +78,7 @@ HotelCard.defaltProps = {
   handleEditHotel: () => { },
   handleManageRoom: () => { },
   handleRemoveHotel: () => { },
+  handleReserveHotel: () => { },
   isView: false,
 }
 

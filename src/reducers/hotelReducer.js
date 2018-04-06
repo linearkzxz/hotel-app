@@ -3,6 +3,7 @@ import {
   ADD_HOTEL_TO_STORE,
   REMOVE_HOTEL_FROM_STORE,
   ADD_HOTEL_ROOM_TO_STORE,
+  REMOVE_ROOM_FROM_HOTEL,
   BOOKED_ROOM,
 } from '../constants/ActionTypes'
 
@@ -194,10 +195,23 @@ const hotelReducer = (state = initState, action) => {
       }
     }
     case REMOVE_HOTEL_FROM_STORE: {
-      const hotelsAfterRemove = _.omit(state.hotels, [action.hotelId])
+      const hotelsAfterRemove = _.omit(state.hotels, action.hotelId)
       return {
         ...state,
         hotels: hotelsAfterRemove,
+      }
+    }
+    case REMOVE_ROOM_FROM_HOTEL: {
+      const roomsAfterRemove = _.omit(state.hotels[action.hotelId].rooms, action.roomId)
+      return {
+        ...state,
+        hotels: {
+          ...state.hotels,
+          [action.hotelId]: {
+            ...state.hotels[action.hotelId],
+            rooms: roomsAfterRemove,
+          },
+        }
       }
     }
     case BOOKED_ROOM: {

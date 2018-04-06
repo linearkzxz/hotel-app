@@ -21,6 +21,7 @@ const RoomCard = ({
   numRoom,
   price,
   handleEdit,
+  handleRemove,
   handleBook,
   handleSelectRooms,
   selectedRooms,
@@ -88,7 +89,7 @@ const RoomCard = ({
                     <Button bsStyle="primary" onClick={() => handleEdit()}>Edit</Button>
                   </Col>
                   <Col xs={12} style={{ marginTop: '15px' }}>
-                    <Button bsStyle="danger" onClick={() => handleEdit()}>Delete</Button>
+                    <Button bsStyle="danger" onClick={() => handleRemove()}>Delete</Button>
                   </Col>
                 </Row>
               </Col>
@@ -108,6 +109,7 @@ RoomCard.propTypes = {
   numRoom: PropTypes.number.isRequired,
   price: PropTypes.string.isRequired,
   handleEdit: PropTypes.func,
+  handleRemove: PropTypes.func,
   handleBook: PropTypes.func,
   handleSelectRooms: PropTypes.func,
   selectedRooms: PropTypes.object,
@@ -116,9 +118,10 @@ RoomCard.propTypes = {
 
 RoomCard.defaltProps = {
   handleEdit: () => { },
+  handleRemove: () => { },
   handleBook: () => { },
   handleSelectRooms: () => { },
-  selectedRooms: () => { },
+  selectedRooms: {},
   isView: false,
 }
 
