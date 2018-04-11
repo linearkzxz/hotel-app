@@ -15,11 +15,8 @@ export class ReserveRoom extends Component {
     location: PropTypes.object,
   }
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.handleSelectRooms = this.handleSelectRooms.bind(this);
-
+  constructor(props) {
+    super(props);
     this.state = {
       selectedRooms: {},
       selectedRoomsId: '',
@@ -27,7 +24,7 @@ export class ReserveRoom extends Component {
     }
   }
 
-  handleSelectRooms(e, roomId) {
+  handleSelectRooms = (e, roomId) => {
     this.setState({
       selectedRooms: { [roomId]: e.target.value },
       selectedRoomsId: roomId
@@ -42,9 +39,6 @@ export class ReserveRoom extends Component {
     } else {
       this.setState({ showAlertSuccess: 'danger' })
     }
-    setTimeout(() => {
-      this.setState({ showAlertSuccess: null })
-    }, 3000)
   }
 
   showAlert = (showAlertSuccess) => {
@@ -99,8 +93,8 @@ export class ReserveRoom extends Component {
                 key={item.roomId}
                 roomId={item.roomId}
                 type={item.type}
-                minPerson={item.minPerson}
-                maxPerson={item.maxPerson}
+                minPerson={addCommaFromInteger(item.minPerson)}
+                maxPerson={addCommaFromInteger(item.maxPerson)}
                 numRoom={item.numRoom}
                 price={addCommaFromInteger(item.price)}
                 handleSelectRooms={(e) => this.handleSelectRooms(e, item.roomId)}

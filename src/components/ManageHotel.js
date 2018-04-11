@@ -8,6 +8,7 @@ import {
   ControlLabel,
   Checkbox,
   ListGroup,
+  Modal,
 } from 'react-bootstrap'
 import { HotelCard } from '../commons'
 import { addHotelToStore, removeHotel } from '../actions/hotelAction'
@@ -19,11 +20,8 @@ export class ManageHotel extends Component {
     removeHotelProps: PropTypes.func,
   }
 
-  constructor(props, context) {
-    super(props, context)
-
-    this.handleChange = this.handleChange.bind(this)
-
+  constructor(props) {
+    super(props)
     this.state = {
       hotelName: '',
       isHotelNameErr: null,
@@ -34,14 +32,16 @@ export class ManageHotel extends Component {
         'Car rest': false,
       },
       pageType: 'add',
+      showConfirmModal: false,
+      removehotelId: '',
     }
   }
 
-  handleChange(e, key) {
+  handleChange = (e, key) => {
     this.setState({ [key]: e.target.value })
   }
 
-  handleChangeCheckbox(e, key) {
+  handleChangeCheckbox = (e, key) => {
     const facility = { ...this.state.facilities, [key]: e.target.checked }
     this.setState({ facilities: facility })
   }
@@ -53,7 +53,9 @@ export class ManageHotel extends Component {
       pageType: 'edit',
       hotelId: item.hotelId,
     })
-    window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+    setTimeout(() => {
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+    }, 10);
   }
 
   handleCancelEditHotel = () => {
@@ -78,6 +80,7 @@ export class ManageHotel extends Component {
   handleRemoveHotel = (hotelId) => {
     this.props.removeHotelProps(hotelId)
     this.handleCancelEditHotel()
+    this.setState({ showConfirmModal: false })
   }
 
   addHotel = (hotelId, name, facilities) => {
@@ -108,7 +111,8 @@ export class ManageHotel extends Component {
       facilities,
       pageType,
       hotelId:
-      hotelIdState
+      hotelIdState,
+      removehotelId,
     } = this.state
     const { hotels } = this.props
     const facilityArr = ['Free breakfast', 'Free wifi', 'Pool', 'Car rest']
@@ -166,11 +170,30 @@ export class ManageHotel extends Component {
                 facilities={item.facilities}
                 handleEditHotel={() => this.handleEditHotel(item)}
                 handleManageRoom={() => this.handleManageRoom(item.hotelId)}
-                handleRemoveHotel={() => this.handleRemoveHotel(item.hotelId)}
+                handleRemoveHotel={() => this.setState({ showConfirmModal: true, removehotelId: item.hotelId })}
               />
             ))}
           </ListGroup>
         </div>
+        <Modal
+          show={this.state.showConfirmModal}
+          onHide={this.handleHide}
+          container={this}
+          aria-labelledby="contained-modal-title"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title">
+              Confirm delete?
+              </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete this item?
+            </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="success" onClick={() => this.handleRemoveHotel(removehotelId)}>Confirm</Button>
+            <Button bsStyle="danger" onClick={() => this.setState({ showConfirmModal: false })}>Close</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     )
   }

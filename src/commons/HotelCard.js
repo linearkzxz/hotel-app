@@ -14,8 +14,8 @@ const HotelCard = ({
   handleReserveHotel,
   isView
 }) => {
-  var facilitiesKeys = Object.keys(facilities);
-  var facilitiesAviliable = facilitiesKeys.filter((key) => facilities[key])
+  const facilitiesKeys = Object.keys(facilities);
+  const facilitiesAviliable = facilitiesKeys.filter((key) => facilities[key])
   return (
     <div className='room-card-div'>
       <Grid>

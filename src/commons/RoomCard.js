@@ -32,6 +32,7 @@ const RoomCard = ({
     value: i,
     text: i,
   }))
+
   const numSelectedRooms = selectedRooms && selectedRooms[roomId] ? selectedRooms[roomId] : 0
   return (
     <div className='room-card-div'>
@@ -104,9 +105,12 @@ const RoomCard = ({
 RoomCard.propTypes = {
   roomId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  minPerson: PropTypes.number.isRequired,
-  maxPerson: PropTypes.number.isRequired,
-  numRoom: PropTypes.number.isRequired,
+  minPerson: PropTypes.string.isRequired,
+  maxPerson: PropTypes.string.isRequired,
+  numRoom: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   price: PropTypes.string.isRequired,
   handleEdit: PropTypes.func,
   handleRemove: PropTypes.func,

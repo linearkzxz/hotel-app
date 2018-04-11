@@ -11,12 +11,28 @@ import './style.css'
 class RoomForm extends Component {
   static propTypes = {
     roomType: PropTypes.string,
-    minPerson: PropTypes.number,
-    maxPerson: PropTypes.number,
-    numRoom: PropTypes.number,
-    roomPrice: PropTypes.number,
-    isRoomTypeErr: PropTypes.string,
+    minPerson: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    maxPerson: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    numRoom: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    roomPrice: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
     handleChange: PropTypes.func,
+    isRoomTypeErr: PropTypes.string,
+    isMinPersonErr: PropTypes.string,
+    isMaxPersonErr: PropTypes.string,
+    isNumRoomErr: PropTypes.string,
+    isPriceErr: PropTypes.string,
   }
 
   handleChange(e, key) {
@@ -31,11 +47,11 @@ class RoomForm extends Component {
       numRoom,
       roomPrice,
       isRoomTypeErr,
+      isMinPersonErr,
+      isMaxPersonErr,
+      isNumRoomErr,
+      isPriceErr,
     } = this.props
-    const numRoomArr = Array(20).fill(0).map((v, i) => ({
-      value: i + 1,
-      text: i + 1,
-    }))
     return (
       <div align='left'>
         <FormGroup controlId={'roomTypeInput'}>
@@ -45,7 +61,7 @@ class RoomForm extends Component {
             placeholder={'Room type'}
             onChange={(e) => this.handleChange(e, 'roomType')}
           />
-          {isRoomTypeErr && (
+          {!!isRoomTypeErr && (
             <ControlLabel style={{ color: 'red' }}>{'Room type is require.'}</ControlLabel>
           )}
         </FormGroup>
@@ -56,16 +72,14 @@ class RoomForm extends Component {
                 <ControlLabel>{'minimum person'}</ControlLabel>
               </span>
               <FormControl
-                componentClass={'select'}
+                type={'number'}
                 value={minPerson}
+                placeholder={'Minimum of person'}
                 onChange={(e) => this.handleChange(e, 'minPerson')}
-              >
-                {
-                  !!numRoomArr && (
-                    numRoomArr.map((item, index) => <option key={index} value={item.value}>{item.text}</option>)
-                  )
-                }
-              </FormControl>
+              />
+              {!!isMinPersonErr && (
+                <ControlLabel style={{ color: 'red', display: 'block' }}>{'Minimum person is require.'}</ControlLabel>
+              )}
             </FormGroup>
             <span style={{ margin: '0 20px 0 20px' }}>-</span>
             <FormGroup controlId={'maxPersonInput'}>
@@ -73,16 +87,14 @@ class RoomForm extends Component {
                 <ControlLabel>{' maximum person'}</ControlLabel>
               </span>
               <FormControl
-                componentClass={'select'}
+                type={'number'}
                 value={maxPerson}
+                placeholder={'Maximum of person'}
                 onChange={(e) => this.handleChange(e, 'maxPerson')}
-              >
-                {
-                  !!numRoomArr && (
-                    numRoomArr.map((item, index) => <option key={index} value={item.value}>{item.text}</option>)
-                  )
-                }
-              </FormControl>
+              />
+              {!!isMaxPersonErr && (
+                <ControlLabel style={{ color: 'red', display: 'block' }}>{'Maximum person is require.'}</ControlLabel>
+              )}
             </FormGroup>
           </Form>
         </div>
@@ -90,16 +102,14 @@ class RoomForm extends Component {
           <FormGroup controlId={'numRoomInput'}>
             <ControlLabel>{'Number of room'}</ControlLabel>
             <FormControl
-              componentClass={'select'}
+              type={'number'}
               value={numRoom}
+              placeholder={'Number of room'}
               onChange={(e) => this.handleChange(e, 'numRoom')}
-            >
-              {
-                !!numRoomArr && (
-                  numRoomArr.map((item, index) => <option key={index} value={item.value}>{item.text}</option>)
-                )
-              }
-            </FormControl>
+            />
+            {!!isNumRoomErr && (
+              <ControlLabel style={{ color: 'red' }}>{'Number of room is require.'}</ControlLabel>
+            )}
           </FormGroup>
         </div>
         <div className='field-div'>
@@ -111,6 +121,9 @@ class RoomForm extends Component {
               placeholder={'Room price'}
               onChange={(e) => this.handleChange(e, 'roomPrice')}
             />
+            {!!isPriceErr && (
+              <ControlLabel style={{ color: 'red' }}>{'Room price is require.'}</ControlLabel>
+            )}
           </FormGroup>
         </div>
       </div>

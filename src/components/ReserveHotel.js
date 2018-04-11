@@ -21,12 +21,8 @@ export class ReserveHotel extends Component {
     history: PropTypes.object,
   }
 
-  constructor(props, context) {
-    super(props, context)
-
-    this.handleChange = this.handleChange.bind(this)
-    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this)
-
+  constructor(props) {
+    super(props)
     this.state = {
       hotelName: '',
       minPrice: 0,
@@ -43,11 +39,11 @@ export class ReserveHotel extends Component {
     this.searchString = ''
   }
 
-  handleChange(e, key) {
+  handleChange = (e, key) => {
     this.setState({ [key]: e.target.value })
   }
 
-  handleChangeCheckbox(e, key) {
+  handleChangeCheckbox = (e, key) => {
     const facility = { ...this.state.facilities, [key]: e.target.checked }
     this.setState({ facilities: facility })
   }

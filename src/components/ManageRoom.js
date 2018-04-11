@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Button } from 'react-bootstrap'
+import { Button, Modal } from 'react-bootstrap'
 import { RoomCard } from '../commons'
 import { addHotelRoom, removeRoom } from '../actions/hotelAction'
 import RoomForm from './RoomForm'
-import { addCommaFromInteger } from '../utils/utilFunction'
+import { addCommaFromInteger, isEmpty } from '../utils/utilFunction'
 
 export class ManageRoom extends Component {
   static propTypes = {
@@ -15,38 +15,57 @@ export class ManageRoom extends Component {
     history: PropTypes.object,
   }
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.handleChange = this.handleChange.bind(this);
-
+  constructor(props) {
+    super(props)
     this.state = {
       roomType: '',
-      minPerson: 1,
-      maxPerson: 1,
-      numRoom: 1,
-      roomPrice: 0,
+      minPerson: '',
+      maxPerson: '',
+      numRoom: '',
+      roomPrice: '',
       pageType: 'add',
       roomId: '',
       isRoomTypeErr: null,
+      isMinPersonErr: null,
+      isMaxPersonErr: null,
+      isNumRoomErr: null,
+      isPriceErr: null,
+      showConfirmModal: false,
+      removeRoomId: '',
     }
   }
 
   checkValidation = () => {
+    let validateError = {}
     if (!this.state.roomType) {
-      this.setState({ isRoomTypeErr: 'error' })
+      validateError = { ...validateError, isRoomTypeErr: 'error' }
+    }
+    if (!this.state.minPerson) {
+      validateError = { ...validateError, isMinPersonErr: 'error' }
+    }
+    if (!this.state.maxPerson) {
+      validateError = { ...validateError, isMaxPersonErr: 'error' }
+    }
+    if (!this.state.numRoom) {
+      validateError = { ...validateError, isNumRoomErr: 'error' }
+    }
+    if (!this.state.roomPrice) {
+      validateError = { ...validateError, isPriceErr: 'error' }
+    }
+    if (!isEmpty(validateError)) {
+      this.setState({ isRoomTypeErr: null, isMinPersonErr: null, isMaxPersonErr: null, isNumRoomErr: null, isPriceErr: null, ...validateError })
       return false
     }
-    this.setState({ isRoomTypeErr: null })
+    this.setState({ isRoomTypeErr: null, isMinPersonErr: null, isMaxPersonErr: null, isNumRoomErr: null, isPriceErr: null })
     return true
   }
 
-  handleChange(e, key) {
+  handleChange = (e, key) => {
     this.setState({ [key]: e.target.value });
   }
 
   handleCancelEditRoom = () => {
-    this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0, pageType: 'add' })
+    this.setState({ roomType: '', minPerson: '', maxPerson: '', numRoom: '', roomPrice: '', pageType: 'add' })
   }
 
   handleEditRoom = (item) => {
@@ -58,13 +77,17 @@ export class ManageRoom extends Component {
       roomPrice: item.price,
       pageType: 'edit',
       roomId: item.roomId,
+      showConfirmModal: false,
     })
-    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+    }, 10);
   }
 
   handleRemoveRoom = (hotelId, roomId) => {
     this.props.removeRoomProps(hotelId, roomId)
     this.handleCancelEditRoom()
+    this.setState({ showConfirmModal: false })
   }
 
   submitForm = (hotelId, roomId) => {
@@ -80,7 +103,7 @@ export class ManageRoom extends Component {
     if (this.checkValidation()) {
       addHotelRoomProp(hotelId, roomId, roomType, minPerson, maxPerson, numRoom, roomPrice)
       if (pageType === 'add') {
-        this.setState({ roomType: '', minPerson: 1, maxPerson: 1, numRoom: 0, roomPrice: 0 })
+        this.setState({ roomType: '', minPerson: '', maxPerson: '', numRoom: '', roomPrice: '' })
       } else {
         this.handleCancelEditRoom()
       }
@@ -97,6 +120,11 @@ export class ManageRoom extends Component {
       pageType,
       roomId: roomIdState,
       isRoomTypeErr,
+      isMinPersonErr,
+      isMaxPersonErr,
+      isNumRoomErr,
+      isPriceErr,
+      removeRoomId,
     } = this.state
     const { match, hotels, history } = this.props
     const hotelId = match.params.hotelId
@@ -123,6 +151,10 @@ export class ManageRoom extends Component {
               numRoom={numRoom}
               roomPrice={roomPrice}
               isRoomTypeErr={isRoomTypeErr}
+              isMinPersonErr={isMinPersonErr}
+              isMaxPersonErr={isMaxPersonErr}
+              isNumRoomErr={isNumRoomErr}
+              isPriceErr={isPriceErr}
             />
           </div>
           <div align='center'>
@@ -165,15 +197,34 @@ export class ManageRoom extends Component {
                 key={item.roomId}
                 roomId={item.roomId}
                 type={item.type}
-                minPerson={item.minPerson}
-                maxPerson={item.maxPerson}
-                numRoom={item.numRoom}
+                minPerson={addCommaFromInteger(item.minPerson)}
+                maxPerson={addCommaFromInteger(item.maxPerson)}
+                numRoom={addCommaFromInteger(item.numRoom)}
                 price={addCommaFromInteger(item.price)}
                 handleEdit={() => this.handleEditRoom(item)}
-                handleRemove={() => this.handleRemoveRoom(hotelId, item.roomId)}
+                handleRemove={() => this.setState({ showConfirmModal: true, removeRoomId: item.roomId })}
               />
             ))}
           </div>
+          <Modal
+            show={this.state.showConfirmModal}
+            onHide={this.handleHide}
+            container={this}
+            aria-labelledby="contained-modal-title"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title">
+                Confirm delete?
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete this item?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button bsStyle="success" onClick={() => this.handleRemoveRoom(hotelId, removeRoomId)}>Confirm</Button>
+              <Button bsStyle="danger" onClick={() => this.setState({ showConfirmModal: false })}>Close</Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       )
     }
