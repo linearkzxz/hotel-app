@@ -30,9 +30,11 @@ describe('ManageHotel', () => {
     const wrapper = getComponent({ ...defaultProps, hotels: mockHotel })
     expect(wrapper.find('FormGroup').length).toBe(2)
     expect(wrapper.find('ListGroup').length).toBe(1)
-    expect(wrapper.find('Button').length).toBe(1)
+    expect(wrapper.find('Button').length).toBe(3)
     expect(wrapper.find('HotelCard').length).toBe(2)
     expect(wrapper.find('ControlLabel').length).toBe(2)
+    expect(wrapper.find('Modal').length).toBe(1)
+
   })
   it('should be render correctly when isHotelNameErr is true', () => {
     const wrapper = getComponent({ ...defaultProps })
@@ -42,7 +44,7 @@ describe('ManageHotel', () => {
   it('should be render correctly when pageType is edit mode', () => {
     const wrapper = getComponent({ ...defaultProps })
     wrapper.setState({ pageType: 'edit' })
-    expect(wrapper.find('Button').length).toBe(2)
+    expect(wrapper.find('Button').length).toBe(4)
   })
   it('should set state correctly when handleChange is called', () => {
     const wrapper = getComponent({ ...defaultProps })
@@ -178,8 +180,23 @@ describe('ManageHotel', () => {
     const wrapper = getComponent({ ...defaultProps })
     wrapper.setState({ pageType: 'edit' })
     wrapper.instance().handleCancelEditHotel = jest.fn()
-    wrapper.find('Button').last().simulate('click')
+    wrapper.find('Button').at(1).simulate('click')
     expect(wrapper.instance().handleCancelEditHotel).toHaveBeenCalledTimes(1)
+  })
+
+  it('should handleRemoveHotel is call when Confirm remove hotel Button was click in modal', () => {
+    const wrapper = getComponent({ ...defaultProps })
+    wrapper.setState({ pageType: 'edit', showConfirmModal: true })
+    wrapper.instance().handleRemoveHotel = jest.fn()
+    wrapper.find('Button').at(2).simulate('click')
+    expect(wrapper.instance().handleRemoveHotel).toHaveBeenCalledTimes(1)
+  })
+
+  it('should hide modal when Close Button was click in modal', () => {
+    const wrapper = getComponent({ ...defaultProps })
+    wrapper.setState({ pageType: 'edit', showConfirmModal: true })
+    wrapper.find('Button').at(3).simulate('click')
+    expect(wrapper.instance().state.showConfirmModal).toEqual(false)
   })
 })
 

@@ -51,8 +51,9 @@ describe('ManageRoom', () => {
   it('should be render correctly', () => {
     const wrapper = getComponent({ ...defaultProps })
     expect(wrapper.find('RoomForm').length).toBe(1)
-    expect(wrapper.find('Button').length).toBe(2)
+    expect(wrapper.find('Button').length).toBe(4)
     expect(wrapper.find('RoomCard').length).toBe(2)
+    expect(wrapper.find('Modal').length).toBe(1)
   })
 
   it('should submitForm is call when click add room button', () => {
@@ -65,12 +66,12 @@ describe('ManageRoom', () => {
     const wrapper = getComponent({ ...defaultProps })
     wrapper.instance().handleCancelEditRoom = jest.fn()
     wrapper.setState({ pageType: 'edit' })
-    wrapper.find('Button').last().simulate('click')
+    wrapper.find('Button').at(1).simulate('click')
     expect(wrapper.instance().handleCancelEditRoom).toHaveBeenCalledTimes(1)
   })
   it('should go to back page when click back button', () => {
     const wrapper = getComponent({ ...defaultProps })
-    wrapper.find('Button').last().simulate('click')
+    wrapper.find('Button').at(1).simulate('click')
     expect(defaultProps.history.push).toHaveBeenCalledTimes(1)
   })
 
@@ -78,12 +79,20 @@ describe('ManageRoom', () => {
     const wrapper = getComponent({ ...defaultProps })
     wrapper.instance().checkValidation()
     expect(wrapper.instance().state.isRoomTypeErr).toEqual('error')
+    expect(wrapper.instance().state.isMinPersonErr).toEqual('error')
+    expect(wrapper.instance().state.isMaxPersonErr).toEqual('error')
+    expect(wrapper.instance().state.isNumRoomErr).toEqual('error')
+    expect(wrapper.instance().state.isPriceErr).toEqual('error')
   })
   it('should set isRoomTypeErr state to null when checkValidation is called and roomType is not empty', () => {
     const wrapper = getComponent({ ...defaultProps })
-    wrapper.setState({ roomType: '1212' })
+    wrapper.setState({ roomType: '1212', minPerson: '1', maxPerson: '2', numRoom: '10', roomPrice: '1000' })
     wrapper.instance().checkValidation()
     expect(wrapper.instance().state.isRoomTypeErr).toEqual(null)
+    expect(wrapper.instance().state.isMinPersonErr).toEqual(null)
+    expect(wrapper.instance().state.isMaxPersonErr).toEqual(null)
+    expect(wrapper.instance().state.isNumRoomErr).toEqual(null)
+    expect(wrapper.instance().state.isPriceErr).toEqual(null)
   })
   it('should set state correctly when handleChange is called', () => {
     const wrapper = getComponent({ ...defaultProps })
@@ -104,10 +113,10 @@ describe('ManageRoom', () => {
     }
     wrapper.instance().handleCancelEditRoom()
     expect(wrapper.instance().state.roomType).toEqual('')
-    expect(wrapper.instance().state.minPerson).toEqual(1)
-    expect(wrapper.instance().state.maxPerson).toEqual(1)
-    expect(wrapper.instance().state.numRoom).toEqual(0)
-    expect(wrapper.instance().state.roomPrice).toEqual(0)
+    expect(wrapper.instance().state.minPerson).toEqual('')
+    expect(wrapper.instance().state.maxPerson).toEqual('')
+    expect(wrapper.instance().state.numRoom).toEqual('')
+    expect(wrapper.instance().state.roomPrice).toEqual('')
     expect(wrapper.instance().state.pageType).toEqual('add')
   })
   it('should set state correctly when handleEditRoom is called', () => {
@@ -149,6 +158,19 @@ describe('ManageRoom', () => {
     wrapper.instance().handleCancelEditRoom = jest.fn()
     wrapper.instance().submitForm('1111111', '1212121211212212')
     expect(wrapper.instance().handleCancelEditRoom).toHaveBeenCalledTimes(1)
+  })
+  it('should handleRemoveRoom is call when Confirm remove room Button was click in modal', () => {
+    const wrapper = getComponent({ ...defaultProps })
+    wrapper.setState({ pageType: 'edit', showConfirmModal: true })
+    wrapper.instance().handleRemoveRoom = jest.fn()
+    wrapper.find('Button').at(2).simulate('click')
+    expect(wrapper.instance().handleRemoveRoom).toHaveBeenCalledTimes(1)
+  })
+  it('should hide modal when Close Button was click in modal', () => {
+    const wrapper = getComponent({ ...defaultProps })
+    wrapper.setState({ pageType: 'edit', showConfirmModal: true })
+    wrapper.find('Button').at(3).simulate('click')
+    expect(wrapper.instance().state.showConfirmModal).toEqual(false)
   })
 })
 

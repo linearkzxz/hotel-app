@@ -11,6 +11,10 @@ const defaultProps = {
   numRoom: 10,
   roomPrice: 500,
   isRoomTypeErr: '',
+  isMinPersonErr: '',
+  isMaxPersonErr: '',
+  isNumRoomErr: '',
+  isPriceErr: '',
   handleChange: jest.fn(),
 }
 
@@ -27,6 +31,38 @@ describe('RoomForm', () => {
     const wrapper = getComponent({ ...defaultProps, isRoomTypeErr: 'error' })
     expect(wrapper.find('FormGroup').length).toBe(5)
     expect(wrapper.find('ControlLabel').length).toBe(6)
+  })
+  it('should be render correctly when isMinPersonErr have error', () => {
+    const wrapper = getComponent({ ...defaultProps, isMinPersonErr: 'error' })
+    expect(wrapper.find('FormGroup').length).toBe(5)
+    expect(wrapper.find('ControlLabel').length).toBe(6)
+  })
+  it('should be render correctly when isMaxPersonErr have error', () => {
+    const wrapper = getComponent({ ...defaultProps, isMaxPersonErr: 'error' })
+    expect(wrapper.find('FormGroup').length).toBe(5)
+    expect(wrapper.find('ControlLabel').length).toBe(6)
+  })
+  it('should be render correctly when isNumRoomErr have error', () => {
+    const wrapper = getComponent({ ...defaultProps, isNumRoomErr: 'error' })
+    expect(wrapper.find('FormGroup').length).toBe(5)
+    expect(wrapper.find('ControlLabel').length).toBe(6)
+  })
+  it('should be render correctly when isPriceErr have error', () => {
+    const wrapper = getComponent({ ...defaultProps, isPriceErr: 'error' })
+    expect(wrapper.find('FormGroup').length).toBe(5)
+    expect(wrapper.find('ControlLabel').length).toBe(6)
+  })
+  it('should be render correctly when All field have error', () => {
+    const wrapper = getComponent({
+      ...defaultProps,
+      isRoomTypeErr: 'error',
+      isMinPersonErr: 'error',
+      isMaxPersonErr: 'error',
+      isNumRoomErr: 'error',
+      isPriceErr: 'error',
+    })
+    expect(wrapper.find('FormGroup').length).toBe(5)
+    expect(wrapper.find('ControlLabel').length).toBe(10)
   })
 
   it('should set state correctly when handleChange is called', () => {

@@ -6,9 +6,9 @@ let getComponent
 const defaultProps = {
   roomId: '',
   type: '',
-  minPerson: 1,
-  maxPerson: 2,
-  numRoom: 20,
+  minPerson: '1',
+  maxPerson: '2',
+  numRoom: '20',
   price: '500',
   facilities: {
     'Free breakfast': false,
